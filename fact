@@ -17,7 +17,7 @@ def isprime(number):
 
 def sieve_of_eratosthenes(limit):
     primes = [2]
-    sieve = ([True] * (limit + 1))
+    sieve = [True] * (limit + 1)
     result = int(math.sqrt(limit)) + 1
     for num in range(3, result, 2):
         if sieve[num]:
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     file = argv[1]
 
     try:
-        limit = 10**155  # Adjust the limit based on the range of numbers in your input file
+        limit = 1000000  # Adjust the limit based on the range of numbers in your input file
         primes = sieve_of_eratosthenes(int(math.sqrt(limit)))
 
         with open(file, 'r') as file:
