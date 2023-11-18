@@ -23,8 +23,9 @@ def isprime(number, primes):
 def execute(buffer, primes):
     number = int(buffer)
     i = 2
-
-    while i * i <= number:
+    half = number / 2
+ 
+    while i * i <= half:
         if number % i == 0:
             if isprime(i, primes):
                 print("{}={}*{}".format(number, number // i, i))
