@@ -1,0 +1,56 @@
+#!/usr/bin/python3
+
+from sys import argv, stderr, exit
+import math
+
+def sieve_of_eratosthenes(limit):
+    primes = [True] * (limit + 1)
+    primes[0] = primes[1] = False
+    for i in range(2, int(math.sqrt(limit)) + 1):
+        if primes[i]:
+            for j in range(i * i, limit + 1, i):
+                primes[j] = False
+    return [i for i in range(2, limit + 1) if primes[i]]
+
+def isprime(number, primes):
+    for prime in primes:
+        if prime > math.isqrt(number):
+            break
+        if number % prime == 0:
+            return False
+    return True
+
+def execute(buffer, primes):
+    number = int(buffer)
+    i = 2
+    half = number / 2
+ 
+    while i * i <= half:
+        if number % i == 0:
+            if isprime(i, primes):
+                print("{}={}*{}".format(number, number // i, i))
+                return
+        i += 1
+
+    print("{}={}*{}".format(number, number, 1))
+
+if __name__ == "__main__":
+    if len(argv) < 2:
+        stderr.write("Usage: ./factors <file>\n")
+        exit(1)
+
+    file = argv[1]
+
+    try:
+        limit = 1000000  # Adjust the limit based on the range of numbers in your input file
+        primes = sieve_of_eratosthenes(int(math.sqrt(limit)))
+
+        with open(file, 'r') as file:
+            for line in file:
+                execute(line.rstrip(), primes)
+    except FileNotFoundError:
+        stderr.write("Can't open file: {}\n".format(file))
+        exit(1)
+    except PermissionError:
+        stderr.write("Permission Denied\n")
+        exit(1)
